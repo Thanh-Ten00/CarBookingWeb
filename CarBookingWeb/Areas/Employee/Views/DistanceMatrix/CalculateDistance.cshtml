@@ -1,0 +1,38 @@
+﻿@model CarBooking.Models.DistanceMatrixViewModel
+
+
+<
+<body onload="initAutocomplete()">
+    <form method="post">
+        <div class="form-group">
+            <label for="origin">Origin:</label>
+            <input type="text" id="origin" name="model.Origin" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="destination">Destination:</label>
+            <input type="text" id="destination" name="model.Destination" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Calculate Distance</button>
+    </form>
+</body>
+
+<div id="result">
+    <h3>Result:</h3>
+    <p>Origin: <span id="origin">@Model.Origin</span></p>
+    <p>Destination: <span id="destination">@Model.Destination</span></p>
+    <p>Distance: <span id="distance">@Model.Distance</span></p>
+    <p>Duration: <span id="duration">@Model.Duration</span></p>
+</div>
+
+@section Scripts {
+    <script>
+        function initAutocomplete() {
+            var originInput = document.getElementById('origin');
+            var destinationInput = document.getElementById('destination');
+
+            var originAutocomplete = new google.maps.places.Autocomplete(originInput);
+            var destinationAutocomplete = new google.maps.places.Autocomplete(destinationInput);
+        }
+    </script>
+
+}

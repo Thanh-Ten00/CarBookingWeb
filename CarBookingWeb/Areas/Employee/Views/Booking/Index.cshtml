@@ -1,0 +1,106 @@
+﻿@model BookingVM
+
+
+
+<body class="bg-dark">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-7">
+                @{
+                    var seatEnumerator = Model.Seat.GetEnumerator();
+                    var carEnumerator = Model.Car.GetEnumerator();
+                    var bookingOrderEnumerator = Model.bookingOrder.GetEnumerator();
+
+                    while (seatEnumerator.MoveNext() && carEnumerator.MoveNext() && bookingOrderEnumerator.MoveNext())
+                    {
+                        var seat = seatEnumerator.Current;
+                        var car = carEnumerator.Current;
+                        var bookingOrder = bookingOrderEnumerator.Current;
+
+                        <div class="col-12">
+                            <div class="card mb-3 border-1 border-green">
+                                <div class="card-body bg-dark">
+                                    
+                                            <h5 class="fw-semibold text-green text-center">รายละเอียดที่นั่ง: @seat.SeatCode </h5>
+
+                                    <hr class="border-bottom-2 border-white">
+                                    <h5 class="fw-semibold text-green">
+                                        ชื่อรถ: @car.CarName
+                                    </h5>
+                                    <h5 class="fw-semibold text-green">
+                                        จุดขึ้นรถ: @car.Origin
+                                    </h5>
+                                    <h5 class="fw-semibold text-green">
+                                        จุดปลายทาง: @car.Destination
+                                    </h5>
+                                    <h5 class="fw-semibold text-green">
+                                        ระยะทาง: @car.Distance
+                                    </h5>
+                                    <h5 class="fw-semibold text-green">
+                                       วันเริ่มเดินทาง: @car.Startdatetime
+                                    </h5>
+                                    <h5 class="fw-semibold text-green">
+                                        วันที่กลับ: @car.Returndatetime
+                                    </h5>
+                                    <h5 class="fw-semibold text-green">
+                                        หมายเลขการจอง: @bookingOrder.Id
+                                    </h5>
+                                    <div class="mt-3 mb-3 ">
+                                        <a asp-controller="Booking" asp-action="CancelOrder" asp-route-id="@seat.Id" class="btn btn-outline-danger form-control text-gray">ยกเลิกการจอง</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</body>
+
+@section Scripts {
+
+    <script>
+        function functionConfirm(event) {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+
+            swalWithBootstrapButtons.fire({
+                title: 'Emin misiniz?',
+                text: "Bu işlem geri alınamaz!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Evet, sil!',
+                cancelButtonText: 'Hayır, iptal',
+                reverseButtons: true,
+                timer: 3000
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $("form").submit();
+
+                    swalWithBootstrapButtons.fire({
+                        title: 'Silindi!',
+                        text: 'Kategori silindi.',
+                        icon: 'success',
+                        timer: '2000'
+                    }
+                    )
+                } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    swalWithBootstrapButtons.fire(
+                        'İptal edildi',
+                        '',
+                        'error'
+                    )
+                }
+            })
+        }
+    </script>
+}

@@ -1,0 +1,176 @@
+﻿@model Car
+
+
+<body class="bg-dark" onload="initAutocomplete()">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <!-- ส่วนทางซ้าย - Form -->
+                <div class="card shadow border-1 mt-4 border-green">
+                    <div class="card-body p-4 bg-dark ">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h2 class="text-center text-green">หน้าจองรถ</h2>
+                                <form method="post" class="row" enctype="multipart/form-data">
+
+                                    <input asp-for="Id" hidden />
+
+
+                                    <div class="form-floating mb-3 col-md-6">
+                                        <input asp-for="CarName" id="carname" class="form-control border-2 border-green bg-dark shadow input-green" placeholder="name@example.com" />
+                                        <label asp-for="CarName" class="ms-2 text-gray "></label>
+                                        <span asp-validation-for="CarName" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-floating mb-3 col-md-6">
+                                        <input asp-for="CarType" class="form-control border-2 border-green bg-dark shadow input-green" placeholder="name@example.com" />
+                                        <label asp-for="CarType" class="ms-2 text-gray"></label>
+                                        <span asp-validation-for="CarType" class="text-danger"></span>
+                                    </div>
+
+                                    <div class="form-floating mb-3 col-md-6 ">
+
+                                        <input asp-for="Origin" id="origin" class="form-control border-2 border-green bg-dark shadow input-green " />
+                                        <label asp-for="Origin" class="ms-2 text-gray"></label>
+                                    </div>
+
+                                    <div class="form-floating mb-3 col-md-6">
+
+                                        <input asp-for="Destination" id="destination" class="form-control border-2 border-green bg-dark shadow input-green " />
+                                        <label asp-for="Destination" class="ms-2 text-gray text-center"></label>
+                                    </div>
+
+                                    <div class="form-floating mb-3 col-md-6">
+                                        <input asp-for="Startdatetime" type="datetime-local" class="form-control border-2 border-green bg-dark shadow input-green" />
+                                        <label asp-for="Startdatetime" class="ms-2 text-gray"></label>
+
+                                    </div>
+                                    <div class="form-floating mb-3 col-md-6">
+                                        <input asp-for="Returndatetime" type="datetime-local" class="form-control border-2 border-green bg-dark shadow input-green" />
+                                        <label asp-for="Returndatetime" class="ms-2 text-gray"></label>
+                                    </div>
+
+
+                                    <div class="form-floating mb-3 col-md-6">
+                                        <input asp-for="TotalSeats" class="form-control border-2 border-green bg-dark shadow input-green " placeholder="name@example.com" />
+                                        <label asp-for="TotalSeats" class="ms-2 text-gray"></label>
+                                        <span asp-validation-for="TotalSeats" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-floating mb-3 col-md-6">
+                                    </div>
+
+
+                                    <div class="mb-3 col-md-6 mx-auto">
+
+                                        <button type="submit" class="btn btn-outline-success form-control border-3 text-green">ค้นหา</button>
+
+                                    </div>
+                                    <div class="mb-3 col-md-6 mx-auto">
+                                        <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary form-control border-3 text-gray ">กลับสู่หน้าเมนู</a>
+                                    </div>
+
+                                    @*<div asp-validation-summary="All"></div>*@ <!-- แสดง inValid ทั้งหมด -->
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @if (ViewData["Cars"] != null)
+            {
+                <div class="col-md-6">
+                    <!-- ส่วนทางขวา - Card -->
+                    <div class="card shadow border-1 mt-4 border-green">
+                        <div class="card-body p-4 bg-dark">
+                            <div class="row">
+                                @foreach (var car in ((IEnumerable<Car>)ViewData["Cars"]).OrderBy(u => u.Displayorder))
+                                {
+
+                                    @if (@car.status != SD.StatusFixed && @car.status != SD.StatusSeatsFully)
+                                    {
+                                        <div class="col-12">
+                                            <div class="card mb-3 border-1 border-green">
+                                                <div class="card-body bg-dark">
+                                                    <h5 class="card-title text-green">ชื่อรถ: @car.CarName</h5>
+                                                    <p class="card-text text-green">ประเภทรถ: @car.CarType</p>
+                                                    <p class="card-text text-green">จำนวนที่นั่ง: @car.TotalSeats</p>
+                                                    <p class="card-text text-green">เหลือที่ว่าง: @(car.TotalSeats - car.BookedSeats)</p>
+                                                    @if (car.Startdatetime != null)
+                                                    {
+                                                        <p class="card-text text-green">วันที่เริ่มเดินทาง: @car.Startdatetime</p>
+                                                    }
+                                                    @if (car.Returndatetime != null)
+                                                    {
+                                                        <p class="card-text text-green">วันที่เดินทางกลับ: @car.Returndatetime</p>
+                                                    }
+                                                    @if (car.Origin != null)
+                                                    {
+                                                        <p class="card-text text-green">จุดขึ้นรถ: @car.Origin</p>
+                                                    }
+                                                    @if (car.Destination != null)
+                                                    {
+                                                        <p class="card-text text-green">จุดหมาย: @car.Destination</p>
+                                                    }
+
+                                                    <p class="card-text text-green">สถานะ: @car.status</p>
+                                                    <div class="pl-1">
+                                                        <div class="d-flex flex-wrap">
+                                                            @if (ViewData["Seat"] != null)
+                                                            {
+
+                                                                foreach (var seat in (IEnumerable<Seat>)ViewData["Seat"])
+                                                                {
+
+                                                                    if (@seat.CarId == @car.Id)
+                                                                    {
+                                                                        <div class="mx-2 mb-2">
+                                                                            @if(car.Startdatetime != null){
+                                                                                <button class=" btn @(seat.IsAvailable ? "btn-outline-success seat-toggle text-gray " : "btn-danger seat-toggle disabled text-gray ")" id="@seat.Id" onclick="seatbooking('/Employee/Booking/seatbooking', this.id)">คลิกเพื่อจองที่นั่ง @seat.SeatCode</button>                                                                            
+                                                                            }
+                                                                            else{
+                                                                                <form action="@Url.Action("Seatbooking", "Booking")" method="post">
+                                                                                    <input type="hidden" name="seatId" value="@seat.Id" />
+                                                                                    <button type="submit" class="btn  @(seat.IsAvailable ? "btn-outline-success seat-toggle text-gray "  : "btn-danger seat-toggle disabled text-gray ")">  @seat.SeatCode</button>
+                                                                                </form>
+                                                                            }
+
+                                                                        </div>
+                                                                    }
+
+                                                                }
+
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    }
+
+                                }
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+        </div>
+    </div>
+
+</body>
+
+<!-- โค้ดสำหรับ แสดง invalid แบบ real time-->
+@section Scripts{
+
+    <script src="~/js/mapautocomplete.js"></script>
+        <script src="~/js/SeatButton.js"></script>
+        @*<partial name="_ValidationScriptsPartial" />*@
+   
+}

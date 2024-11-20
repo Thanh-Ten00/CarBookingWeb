@@ -1,0 +1,85 @@
+﻿
+
+@keyframes blink-animation {
+    0% {
+        color: #18CD03;
+    }
+
+    50% {
+        color: transparent;
+    }
+
+    100% {
+        color: #18CD03;
+    }
+}
+
+@font-face {
+    font-family: 'RDCHULAJARUEK'; /* กำหนดชื่อฟอนต์ */
+    src: url('~/CarBookingWeb/wwwroot/fonts/RD CHULAJARUEK.ttf') format('truetype'), /* เปลี่ยน path/to/your/font.ttf เป็นที่ตั้งของไฟล์ฟอนต์ .ttf ของคุณ */
+}
+
+
+
+.input-green {
+    caret-color: #18CD03;
+    color: #18CD03;
+    font-family: 'RDCHULAJARUEK', RD CHULAJARUEK;
+    font-weight: bold;
+}
+
+    
+
+    .input-green:focus {
+        /*color: #18CD03;*/
+        animation: blink-animation 0.5s infinite;
+    }
+
+
+    .input-green::selection {
+        background-color: darkviolet;
+        color: #18CD03;
+    }
+
+    .input-green::-moz-selection {
+        background-color: #18CD03;
+        color: purple;
+    }
+
+
+    .input-green:-webkit-autofill,
+    .input-green:-webkit-autofill:hover,
+    .input-green:-webkit-autofill:focus,
+    .input-green:-webkit-autofill,
+    .input-green:-webkit-autofill:hover,
+    .input-green:-webkit-autofill:focus {
+        -webkit-text-fill-color: #18CD03 !important;
+        
+        -webkit-box-shadow: 0 0 0px 1000px inset !important;
+        transition: background-color 5000s ease-in-out 0s !important;
+    }
+
+.datetime-local::-webkit-calendar-picker-indicator {
+    color: #18CD03;
+    
+}
+
+.text-green {
+    color: #18CD03;
+    font-family: 'RDCHULAJARUEK', RD CHULAJARUEK;
+    font-weight: bold;
+}
+
+.text-gray {
+    color: azure;
+    font-family: 'RDCHULAJARUEK', RD CHULAJARUEK;
+    font-weight: bold;
+}
+
+.border-green {
+    border-color: #28a745 !important;
+}
+
+.border-bottom-2 {
+    border-bottom-width: 2px !important;
+}

@@ -1,0 +1,101 @@
+﻿@model Car
+
+<body class="bg-dark" onload="initAutocomplete()">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+
+
+                <div class="card shadow border-1 mt-4 border-green">
+                    <div class="card-body p-4 bg-dark ">
+                        <div class="row">
+                            <div class="col-md-12">
+
+
+
+                                <form method="post" id="myForm" onsubmit="sendForm(event)" class="row" enctype="multipart/form-data">
+
+                                    <input asp-for="Id" hidden />
+                                    <input asp-for="CarName" hidden />
+                                    <input asp-for="CarType" hidden />
+                                    <input asp-for="TotalSeats" hidden />
+                                    <input asp-for="BookedSeats" hidden />
+                                    <input asp-for="status" hidden />
+                                    <input asp-for="pricePerKm" hidden />
+
+                                    <h2 class="text-center text-gray">จองรถ</h2>
+
+
+                                    <div class="form-floating mb-3 col-md-12 ">
+
+                                        <input asp-for="Origin" id="origin" class="form-control border-2 border-green bg-dark shadow input-green " />
+
+                                        <label asp-for="Origin" class="ms-2 text-gray text-center">จุดขึ้นรถ</label>
+                                    </div>
+
+                                    <div class="form-floating mb-3 col-md-12">
+
+                                        <input asp-for="Destination" id="destination" class="form-control border-2 border-green bg-dark shadow input-green " />
+                                        <label asp-for="Destination" class="ms-2 text-gray">จุดปลายทาง</label>
+                                    </div>
+
+                                    <div class="form-floating mb-3 col-md-6">
+                                        <input asp-for="Startdatetime" type="datetime-local" class="form-control border-2 border-green bg-dark shadow input-green" />
+                                        <label asp-for="Startdatetime" class="ms-2 text-gray"></label>
+
+                                    </div>
+                                    <div class="form-floating mb-3 col-md-6">
+                                        <input asp-for="Returndatetime" type="datetime-local" class="form-control border-2 border-green bg-dark shadow input-green" />
+                                        <label asp-for="Returndatetime" class="ms-2 text-gray"></label>
+                                    </div>
+
+                                    <div class="mb-3 col-md-7 mx-auto">
+
+                                        <button type="submit" class="btn btn-outline-success form-control border-3 text-green">สร้างรายการ</button>
+
+                                    </div>
+                                    <div class="mb-3 col-md-7 mx-auto">
+                                        <a asp-area="Employee" asp-controller="Booking" asp-action="Search" class="btn btn-outline-secondary form-control border-3 text-gray ">ยกเลิก</a>
+                                    </div>
+
+                                    @*<div asp-validation-summary="All"></div>*@ <!-- แสดง inValid ทั้งหมด -->
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+
+@section Scripts {
+
+    <script src="~/js/mapautocomplete.js"></script>
+
+
+    <script>
+        function sendForm(e) {
+            e.preventDefault();
+            Swal.fire({
+                title: 'ยืนยันรายการจองหรือไม่?',
+                icon: 'warning',
+                color: '#716add',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3A3B3C',
+                confirmButtonText: 'ตกลง',
+                cancelButtonText: 'ยกเลิก'
+            }).then(result => {
+                if (result.isConfirmed) {
+                    const myForm = document.getElementById('myForm');
+
+                    myForm.submit();
+                }
+            })
+        }
+    </script>
+}
